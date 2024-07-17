@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch Application</title>
+    
+    <style>
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-image: url("https://images.hindustantimes.com/tech/img/2023/04/04/1600x900/Noise_ColorFit_Icon_3_1680611049260_1680611053568_1680611053568.png");
+            margin: 0;
+        }
+        .stopwatch {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .time {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .buttons button {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .start {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .stop {
+            background-color: #f44336;
+            color: white;
+        }
+        .reset {
+            background-color: #ff9800;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch">
+        <div class="time" id="display">00:00:00</div>
+        <div class="buttons">
+            <button class="start" id="start">Start</button>
+            <button class="stop" id="stop">Stop</button>
+            <button class="reset" id="reset">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let startTime, updatedTime, difference;
+        let interval;
+        let isRunning = false;
+
+        const display = document.getElementById('display');
+        const startButton = document.getElementById('start');
+        const stopButton = document.getElementById('stop');
+        const resetButton = document.getElementById('reset');
+
+        function startTimer() {
+            if (!isRunning) {
+                startTime = new Date().getTime() - (difference || 0);
+                interval = setInterval(updateDisplay, 10);
+                isRunning = true;
+            }
+        }
+
+        function stopTimer() {
+            if (isRunning) {
+                clearInterval(interval);
+                difference = new Date().getTime() - startTime;
+                isRunning = false;
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(interval);
+            startTime = null;
+            updatedTime = null;
+            difference = null;
+            isRunning = false;
+            display.innerText = '00:00:00';
+        }
+
+        function updateDisplay() {
+            updatedTime = new Date().getTime() - startTime;
+
+            let hours = Math.floor((updatedTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((updatedTime % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((updatedTime % (1000 * 60)) / 1000);
+            let milliseconds = Math.floor((updatedTime % 1000) / 10);
+
+            hours = (hours < 10) ? '0' + hours : hours;
+            minutes = (minutes < 10) ? '0' + minutes : minutes;
+            seconds = (seconds < 10) ? '0' + seconds : seconds;
+            milliseconds = (milliseconds < 10) ? '0' + milliseconds : milliseconds;
+
+            display.innerText = `${hours}:${minutes}:${seconds}`;
+        }
+
+        startButton.addEventListener('click', startTimer);
+        stopButton.addEventListener('click', stopTimer);
+        resetButton.addEventListener('click', resetTimer);
+    </script>
+</body>
+</html>
+
+    </section>
+</body>
+</html>
